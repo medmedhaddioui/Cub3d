@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 18:20:42 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/10/03 18:29:16 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/10/03 18:54:43 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void read_map(t_map *map_info, char *filename)
     flag = 0;
     line = ft_strdup("");
     fd = open(filename, O_RDONLY, 0666);
-    if (fd < 0)
+    if (fd == -1)
         ft_exit("Error in Mapfile\n");
     while ((str = get_next_line(fd)))
     {
@@ -62,7 +62,6 @@ void read_map(t_map *map_info, char *filename)
             flag = 2;
         if (flag == 2 && is_newline(str))
         {
-            
             while ((str = get_next_line(fd)))
             {
                 if (!is_newline(str))
@@ -80,6 +79,10 @@ void read_map(t_map *map_info, char *filename)
 
 void parsing (t_map *map_info, char *filename)
 {
+    int len;
+    len = ft_strlen(filename) - 4;
+    if (ft_strncmp(filename + len, ".cub", 4))
+        ft_exit("Error filename must end with .cub\n");
     read_map(map_info, filename);
     return ;
 }
