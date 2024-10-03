@@ -1,22 +1,27 @@
 NAME = cub3D
 
-SRC = main.c
+SRC = main.c parsing.c utils.c
 
-OBJECT = $(SRC:.c=.o)
+OBJ = $(SRC:.c=.o)
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror #-fsanitize=address
+
+LIBFT_A = libft/libft.a
 
 all : $(NAME)
 
 $(NAME): $(SRC)
-	$(CC) $(CFLAGS) $(SRC) -o $(NAME)
+	$(MAKE) -C ./libft
+	$(CC) $(CFLAGS) $(SRC) $(LIBFT_A) -o $(NAME)
 
 clean:
-	rm -rf $(OBJECT)
+	cd libft && rm -rf *.o
+	rm -rf $(OBJ)
 
 fclean: clean
 	rm -rf $(NAME)
+	cd libft && rm -rf libft.a
 
 re: fclean all
 
