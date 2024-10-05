@@ -14,6 +14,7 @@ typedef struct s_program
     
 } t_program;
 
+
 typedef struct s_map
 {
     char **arr;
@@ -23,7 +24,7 @@ typedef struct s_map
 //parsing
 void ft_exit (char *str);
 void parsing (t_map *map_info, char *filename);
-
+int compare_tool (char *s);
 
 // tmp 
 void print_map (t_map map_info);
