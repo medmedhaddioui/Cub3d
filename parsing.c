@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 18:20:42 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/10/06 16:57:50 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/10/06 20:29:50 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int  check_map_newline(char *str, bool flag, int *fd)
         while ((str = get_next_line(*fd)))
         {
             if (!is_newline(str))
-                ft_exit("Error newline in map content\n");
+                ft_exit("Newline in map content\n");
         }
         return 1;
     }
@@ -70,7 +70,7 @@ void read_map(t_map *map_info, char *filename)
     line = ft_strdup("");
     fd = open(filename, O_RDONLY, 0666);
     if (fd == -1)
-        ft_exit("Error in Mapfile\n");
+        ft_exit("Mapfile\n");
     while ((str = get_next_line(fd)))
     {
         if (flag == false && check_map_content(str))
@@ -83,7 +83,7 @@ void read_map(t_map *map_info, char *filename)
         free(str);
     }
     if (!(*line))
-        ft_exit("Error map Empty!\n");
+        ft_exit("Map Empty!\n");
     map_info->arr = ft_split(line, '\n');
 }
 
@@ -121,12 +121,12 @@ void check_textures_colors(char **arr)
         else if (!ft_strncmp(arr[i], "C ", 2))
             ceiling++;
         else
-            ft_exit("Error map before/mid info map\n"); // go other func check what is the content
+            ft_exit("Map before/mid info map\n"); // go other func check what is the content
         i++;
     }
     if (no_texture != 1 ||  so_texture != 1 ||  we_texture != 1 ||  ea_texture != 1 ||  
             floor != 1 ||  ceiling != 1)
-        ft_exit("Error missing or duplicated texture or RGB colors\n");
+        ft_exit("Missing or duplicated texture or RGB colors\n");
 }
 
 int	modified_ft_atoi(const char *nptr)
@@ -194,10 +194,10 @@ void check_is_xmp(char *path)
 
     len = ft_strlen(path) - 4;
     if (path[len - 1] == ' ')
-        ft_exit("Error: filename must end with .xpm\n");
+        ft_exit("Filename must end with .xpm\n");
     
     if (ft_strcmp(path + len, ".xpm"))
-        ft_exit("Error: filename must end with .xpm !\n");
+        ft_exit("Filename must end with .xpm !\n");
 }
 
 void check_xmp_textures(char **arr)
@@ -211,13 +211,17 @@ void check_xmp_textures(char **arr)
                 check_is_xmp(arr[i]);
     }
 }
-void check_isvalid_mapinfo(t_map *map_info)
+void check_map_info_components(char **arr)
 {
-    check_textures_colors (map_info->arr);
-    check_xmp_textures(map_info->arr);
-    check_rgb_colors(map_info->arr, "C "); 
-    check_rgb_colors(map_info->arr, "F ");
+    int i;
+    i = -1;
+    while (++i < 6)
+    {
+        if (compare_tool(arr[i]))
+            ft_exit("Wrong map infos");         
+    }
 }
+
 
 void parse_map (t_map *map_info)
 {
@@ -239,43 +243,99 @@ void parse_map (t_map *map_info)
         }
     }
 }
-void   check_map_components (char **arr)
+void check_is_OnePlayer(char **arr)
 {
     int i;
-    i = -1;
-    while (++i < 6)
-    {
-        if (compare_tool(arr[i]))
-            ft_exit("Error wrong arguments in map_info");         
-    }
+    i = 0;
     int j;
+    int player = 0;
+    while (arr[i])
+    {
+        j = 0;
+        while (arr[i][j])
+        {
+            if (arr[i][j] == 'N' || arr[i][j] == 'S' ||arr[i][j] == 'W' || arr[i][j] == 'E')
+                player++;
+            j++;
+        }
+        i++;
+    }
+    if (player != 1)
+        ft_exit("A single player must be on the map.!\n");
+}
+int find_component(char c)
+{
+    if (c != ' ' && c != '\t' && c != '0' && c != '1'
+        && c != 'N' && c != 'S' && c != 'W' && c != 'E')
+            return 1;
+    if (c == '0' || c == '1'
+        || c == 'N' || c == 'S' || c == 'W' || c == 'E')
+            return 2;
+    return 0;
+}
+void   check_map_components (char **arr)
+{
+    int j;
+    int i;
+    i = 0;
+    int flag ;
+    flag = 0;
     while (arr[i])
     {
         j = 0 ;
         while (arr[i][j])
         {
-            if (arr [i][j] != ' ' && arr [i][j] != '\t' &&arr [i][j] != '0' && arr [i][j] != '1' && 
-                arr [i][j] != 'N' && arr [i][j] != 'S' && arr [i][j] != 'W' && 
-                     arr [i][j] != 'E')
-                ft_exit("Error wrong arguments in map_content");           
+            if (find_component(arr[i][j]) == 1)
+                ft_exit("wrong arguments in map");
+            if (find_component(arr[i][j]) == 2)
+                flag ++;
             j++;
         }
         i++;
     }
+    if (!flag)
+        ft_exit("map not found !!\n");
+    check_is_OnePlayer(arr);
 }
+
+void check_isvalid_mapinfo(t_map *map_info)
+{
+    check_map_info_components(map_info->arr);
+    check_textures_colors (map_info->arr);
+    check_xmp_textures(map_info->arr);
+    check_rgb_colors(map_info->arr, "C "); 
+    check_rgb_colors(map_info->arr, "F ");
+}
+void check_map_is_surronded(char **arr)
+{
+    int i;
+    i = -1;
+    int index;
+    size_t length = 0;
+    while (arr[++i])
+    {
+        if (ft_strlen(arr[i]) > length && (index = i + 1))
+            length = ft_strlen(arr[i]);
+    }
+}
+void check_isvalid_map (t_map *map_info)
+{
+    check_map_components (map_info->arr + 6);
+    check_map_is_surronded(map_info->arr + 6);   
+    return ; 
+}
+
 
 void parsing (t_map *map_info, char *filename)
 {
     int len;
     len = ft_strlen(filename) - 4;
     if (ft_strncmp(filename + len, ".cub", 4))
-        ft_exit("Error filename must end with .cub\n");
+        ft_exit("filename must end with .cub\n");
     read_map(map_info, filename);
     parse_map(map_info);
-    check_map_components (map_info->arr);
-    // check_isvalid_mapcontent(map_info);
     check_isvalid_mapinfo(map_info);
-    // ft_strcmp()
+    check_isvalid_map(map_info);
     return ;
 }
 
