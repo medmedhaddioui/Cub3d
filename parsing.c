@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 18:20:42 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/10/05 21:12:30 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/10/06 16:57:50 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,9 @@ int check_map_content(char *str)
         return 0;
     return 1;
 }
-int  check_map_newline(char *str, int *flag, int *fd)
+int  check_map_newline(char *str, bool flag, int *fd)
 {
-    if (is_newline(str) && *flag == 2)
+    if (flag == true && is_newline(str) )
     {
         while ((str = get_next_line(*fd)))
         {
@@ -65,20 +65,17 @@ void read_map(t_map *map_info, char *filename)
     int fd;
     char *line;
     char *str;
-    int flag;
+    bool flag;
     
-    flag = 0;
     line = ft_strdup("");
     fd = open(filename, O_RDONLY, 0666);
     if (fd == -1)
         ft_exit("Error in Mapfile\n");
     while ((str = get_next_line(fd)))
     {
-        if (check_map_content(str) && flag == 0)
-            flag = 1;
-        if (str[0] != '\n' && flag == 1)
-            flag = 2;
-        if (check_map_newline(str, &flag , &fd))
+        if (flag == false && check_map_content(str))
+            flag = true;
+        if (check_map_newline(str, flag , &fd))
             break;
         if (is_newline(str))
             continue;
@@ -139,7 +136,11 @@ int	modified_ft_atoi(const char *nptr)
 	result = 0;
 	while (*nptr == ' ' || (*nptr >= 9 && *nptr <= 13))
 		nptr++;
-	if (*nptr == '-' || *nptr == '+')
+    if (*nptr == '+')
+    {
+        nptr++;
+    }
+	if (*nptr == '-')
 		return -1;
 	while (*nptr >= '0' && *nptr <= '9')
 	{
@@ -150,11 +151,13 @@ int	modified_ft_atoi(const char *nptr)
 	}
 	return (result);
 }
-void check_rgb_value (char *value)
+void check_rgb_value (char *value, char type)
 {
     if (modified_ft_atoi(value) == -1)
-        ft_exit("Error in RGB colors !");
+        ft_error(type);
 }
+
+
 void check_rgb_colors( char **arr, char *s)
 {
     int i;
@@ -167,36 +170,24 @@ void check_rgb_colors( char **arr, char *s)
         tmp = ft_split(&arr[i][2], ',');
         i = -1;
         while (tmp[++i])
-            check_rgb_value(tmp[i]);
+            check_rgb_value(tmp[i], *s);
         if (i != 3)
-            ft_exit("Error in RGB colors missing!");
+            ft_error(*s);
     }
 }
-// int  ft_strcmp(char *s1, char *s2)
-// {
-//     if (!s1 || !s2)
-//         return 0;
-//     while (*s1 && *s2 && *s1 == *s2)
-//     {
-//         s1++;
-//         s2++;
-//     }
-//     if (*s1 == *s2)
-//         return 0;
-//     return 1;
-// }
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+int	ft_strcmp(const char *s1, const char *s2)
 {
 	size_t	i;
 
 	i = 0;
-	while (s1[i] && s2[i] && (unsigned char)s1[i] == (unsigned char)s2[i]
-		&& i < n)
-		i++;
-	if (i == n)
+	if (!s1 || !s2)
 		return (0);
+
+	while (s1[i] && s2[i] && s1[i] == s2[i])
+		i++;
 	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
+
 void check_is_xmp(char *path)
 {
     int len;
@@ -204,12 +195,9 @@ void check_is_xmp(char *path)
     len = ft_strlen(path) - 4;
     if (path[len - 1] == ' ')
         ft_exit("Error: filename must end with .xpm\n");
-    if (path[len] != '.' || path[len + 1] != 'x' 
-        || path[len + 2] != 'p'|| path[len + 3] != 'm')
-    {
-        printf("%c\n",path[len + 2]);
-        ft_exit("Error: filename must end with .xpm\n");
-    }
+    
+    if (ft_strcmp(path + len, ".xpm"))
+        ft_exit("Error: filename must end with .xpm !\n");
 }
 
 void check_xmp_textures(char **arr)
@@ -218,9 +206,9 @@ void check_xmp_textures(char **arr)
     i = -1;
     while (++i < 6)
     {
-        if (!ft_strncmp(arr[i], "NO ", 3) || !ft_strncmp(arr[i], "SO ", 3) ||
+        if (!ft_strncmp(arr[i], "NO ", 3) || !ft_strncmp(arr[i], "SO ", 3) || 
             !ft_strncmp(arr[i], "WE ", 3) || !ft_strncmp(arr[i], "EA ", 3))
-                check_is_xmp(arr[i]); // problem here (ft_strcmp)
+                check_is_xmp(arr[i]);
     }
 }
 void check_isvalid_mapinfo(t_map *map_info)
@@ -287,6 +275,7 @@ void parsing (t_map *map_info, char *filename)
     check_map_components (map_info->arr);
     // check_isvalid_mapcontent(map_info);
     check_isvalid_mapinfo(map_info);
+    // ft_strcmp()
     return ;
 }
 

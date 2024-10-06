@@ -25,7 +25,7 @@ typedef struct s_map
 void ft_exit (char *str);
 void parsing (t_map *map_info, char *filename);
 int compare_tool (char *s);
-
+void ft_error (char type);
 // tmp 
 void print_map (t_map map_info);
 
