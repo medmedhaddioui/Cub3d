@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 18:20:42 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/10/06 20:29:50 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/10/07 21:38:49 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -268,9 +268,6 @@ int find_component(char c)
     if (c != ' ' && c != '\t' && c != '0' && c != '1'
         && c != 'N' && c != 'S' && c != 'W' && c != 'E')
             return 1;
-    if (c == '0' || c == '1'
-        || c == 'N' || c == 'S' || c == 'W' || c == 'E')
-            return 2;
     return 0;
 }
 void   check_map_components (char **arr)
@@ -286,8 +283,9 @@ void   check_map_components (char **arr)
         while (arr[i][j])
         {
             if (find_component(arr[i][j]) == 1)
-                ft_exit("wrong arguments in map");
-            if (find_component(arr[i][j]) == 2)
+                ft_exit("wrong arguments in map\n");
+            if (arr[i][j] == '0' || arr[i][j] == '1'|| arr[i][j] == 'N' ||
+                arr[i][j] == 'S' || arr[i][j] == 'W' || arr[i][j] == 'E')
                 flag ++;
             j++;
         }
@@ -306,22 +304,60 @@ void check_isvalid_mapinfo(t_map *map_info)
     check_rgb_colors(map_info->arr, "C "); 
     check_rgb_colors(map_info->arr, "F ");
 }
-void check_map_is_surronded(char **arr)
+int check_pos (char c)
 {
-    int i;
-    i = -1;
-    int index;
-    size_t length = 0;
-    while (arr[++i])
+
+    if (c != '0' && c != '1'
+        && c != 'N' && c != 'S' && c != 'W' && c != 'E')
     {
-        if (ft_strlen(arr[i]) > length && (index = i + 1))
-            length = ft_strlen(arr[i]);
+        printf("%c\n",c);
+        return 1;
     }
+    return 0;
+}
+void check_Element_iswall(char **arr, int height, int width)
+{
+    if (check_pos(arr[height - 1][width]) || check_pos(arr[height + 1][width]) ||
+        check_pos(arr[height][width + 1]) || check_pos(arr[height][width - 1]))
+    {
+        printf("%d  -- %d\n",width,height);
+        ft_exit("Map not closed wst\n");
+    }
+}
+void check_map_is_closed(char **arr)
+{
+
+    int i;
+    int j;
+    j = 0;
+    while (arr[0][j] && (arr[0][j] == '1' || arr[0][j] == ' ' || arr[0][j] == '\t'))
+        j++;
+    if (arr[0][j])
+        ft_exit("Map not Closed!!\n");
+    i = 1;
+    while (arr[i])
+    {
+        if (!arr[i + 1])
+            break;
+        j = -1;
+        while (arr[i][++j])
+        {
+            if (arr[i][j] != '1' && arr[i][j] != ' ' && arr[i][j] != '\t')
+                check_Element_iswall(arr, i, j);
+        }
+        i++;
+    }
+    j = 0;
+    while (arr[i][j] && (arr[i][j] == '1' || arr[i][j] == ' ' || arr[i][j] == '\t'))
+        j++;
+    if (arr[i][j])
+        ft_exit("Map not Closed!!\n");
+
 }
 void check_isvalid_map (t_map *map_info)
 {
     check_map_components (map_info->arr + 6);
-    check_map_is_surronded(map_info->arr + 6);   
+    check_map_is_closed(map_info->arr + 6);   
     return ; 
 }
 
