@@ -24,9 +24,23 @@ typedef struct s_map
 //parsing
 void ft_exit (char *str);
 void parsing (t_map *map_info, char *filename);
-int compare_tool (char *s);
+void check_isvalid_map (t_map *map_info);
+void check_isvalid_mapinfo(t_map *map_info);
+void check_map_info_components(char **arr);
+void   check_map_components (char **arr);
+void check_xmp_textures(char **arr);
+void check_rgb_colors( char **arr, char *s);
+void check_textures_colors(char **arr);
+void check_map_is_closed(char **arr);
+void read_map(t_map *map_info, char *filename);
+int  compare_tool (char *s);
+int	modified_ft_atoi(const char *nptr);
+
+//errors
 void ft_error (char type);
+
 // tmp 
 void print_map (t_map map_info);
+int	ft_strcmp(const char *s1, const char *s2);
 
 #endif

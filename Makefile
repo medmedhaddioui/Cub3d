@@ -1,6 +1,8 @@
 NAME = cub3D
 
-SRC = main.c parsing.c utils.c
+SRC = main.c parsing/check_components.c parsing/check_map_info.c \
+		parsing/check_map.c parsing/get_file_data.c parsing/parsing.c \
+		parsing/utils.c
 
 OBJ = $(SRC:.c=.o)
 
