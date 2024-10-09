@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 12:43:51 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/10/08 18:12:16 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/10/09 21:39:46 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void check_textures_colors(char **arr)
 {
     t_program data;
     init_data(&data);
+    int flag = 0;
     while (data.i < 6)
     {
         if (!ft_strncmp(arr[data.i], "NO ", 3))
@@ -42,16 +43,24 @@ void check_textures_colors(char **arr)
         else if (!ft_strncmp(arr[data.i], "C ", 2))
             data.ceiling++;
         else
-            ft_exit("Map before/mid info map\n"); // go other func check what is the content
+            flag ++;
         data.i++;
     }
     if (data.no_texture != 1 || data.so_texture != 1 || data.we_texture != 1 || data.ea_texture != 1 ||  
         data.floor != 1 || data.ceiling != 1)
         ft_exit("Missing or duplicated texture or RGB colors\n");
+    if (flag)
+        ft_exit("Map before/mid info map !!\n");
 }
 
 void check_rgb_value (char *value, char type)
 {
+    while (*value)
+    {
+        if (!ft_isdigit(*value))
+            ft_error(type);
+        value++;
+    }
     if (modified_ft_atoi(value) == -1)
         ft_error(type);
 }
@@ -85,6 +94,8 @@ void check_rgb_colors( char **arr, char *s)
         i = -1;
         while (tmp[++i])
             check_rgb_value(tmp[i], *s);
+        if (i != 3)
+            ft_error(*s);
     }
 }
 
@@ -112,5 +123,3 @@ void check_xmp_textures(char **arr)
                 check_is_xmp(arr[i]);
     }
 }
-
-

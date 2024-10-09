@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 12:32:16 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/10/09 19:50:49 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/10/09 21:21:05 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void check_error_type(char *line)
         if (compare_tool(&tmp_arr[i][j]))
             flag = 1;
         else if (flag && !compare_tool(&tmp_arr[i][j]))
-            ft_exit("Map before/mid info map\n");
+            ft_exit("Map before/mid info map!\n");
         i++;
     }
     ft_exit("Error Newline in map !\n");

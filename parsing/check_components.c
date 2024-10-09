@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 12:41:11 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/10/09 19:38:52 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/10/09 21:41:31 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,22 @@ void check_is_OnePlayer(char **arr)
     i = 0;
     int j;
     int player = 0;
+    int found = 0;
     while (arr[i])
     {
         j = 0;
         while (arr[i][j])
         {
+            if (!find_component(arr[i][j]))
+                found++;
             if (arr[i][j] == 'N' || arr[i][j] == 'S' ||arr[i][j] == 'W' || arr[i][j] == 'E')
                 player++;
             j++;
         }
         i++;
     }
+    if (found <= 6)
+        ft_exit("Error Map missing or too small\n");
     if (player != 1)
         ft_exit("A single player must be on the map.!\n");
 }
