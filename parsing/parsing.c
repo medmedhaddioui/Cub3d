@@ -6,12 +6,11 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 12:36:01 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/10/08 12:56:47 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/10/09 19:45:05 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3D.h"
-
 
 void remove_whitspaces (t_map *map_info)
 {
@@ -20,12 +19,10 @@ void remove_whitspaces (t_map *map_info)
     int j;
     while (++i < 6)
     {
-        j = 0;
-        while(map_info->arr[i][j])
+        j = -1;
+        while(map_info->arr[i][++j])
         {
-            if (map_info->arr[i][j] == ' ' || map_info->arr[i][j] == '\t')
-                j++;
-            else
+            if (map_info->arr[i][j] != ' ' && map_info->arr[i][j] != '\t')
             {
                 map_info->arr[i] = map_info->arr[i] + j;
                 break;
@@ -33,10 +30,26 @@ void remove_whitspaces (t_map *map_info)
         }
     }
 }
+void   check_map_infos_components (char **arr)
+{
+    int j;
+    int i;
+    i = 0;
+    while (arr[i])
+    { 
+        j = 0 ;
+        while (arr[i][j])
+        {
+            if (find_component(arr[i][j]) && compare_tool(arr[i]))
+                ft_exit("Error: wrong arguments in map\n");
+            j++;
+        }
+        i++;
+    }
+}
 
 void check_isvalid_mapinfo(t_map *map_info)
 {
-    check_map_info_components(map_info->arr);
     check_textures_colors (map_info->arr);
     check_xmp_textures(map_info->arr);
     check_rgb_colors(map_info->arr, "C "); 
@@ -44,9 +57,8 @@ void check_isvalid_mapinfo(t_map *map_info)
 }
 void check_isvalid_map (t_map *map_info)
 {
-    check_map_components (map_info->arr + 6);
+    check_is_OnePlayer(map_info->arr + 6);
     check_map_is_closed(map_info->arr + 6);   
-    return ; 
 }
 
 void parsing (t_map *map_info, char *filename)
@@ -57,6 +69,7 @@ void parsing (t_map *map_info, char *filename)
         ft_exit("filename must end with .cub\n");
     read_map(map_info, filename);
     remove_whitspaces(map_info);
+    check_map_infos_components(map_info->arr);
     check_isvalid_mapinfo(map_info); //textures and colors
     check_isvalid_map(map_info); // map
     return ;

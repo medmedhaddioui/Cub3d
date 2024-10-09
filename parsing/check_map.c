@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 12:43:05 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/10/08 12:56:42 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/10/08 17:04:48 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,7 @@ int check_pos (char c)
 
     if (c != '0' && c != '1'
         && c != 'N' && c != 'S' && c != 'W' && c != 'E')
-    {
-        printf("%c\n",c);
         return 1;
-    }
     return 0;
 }
 void check_Element_iswall(char **arr, int height, int width)

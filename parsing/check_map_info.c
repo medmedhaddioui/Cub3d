@@ -6,51 +6,47 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 12:43:51 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/10/08 12:56:39 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/10/08 18:12:16 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3D.h"
 
+void init_data (t_program *data)
+{
+    data->i = 0;
+    data->no_texture = 0;
+    data->so_texture = 0;
+    data->we_texture = 0;
+    data->ea_texture = 0;
+    data->floor = 0;
+    data->ceiling = 0;
+}
+
 void check_textures_colors(char **arr)
 {
-    int no_texture;
-    int so_texture;
-    int we_texture;
-    int ea_texture;
-    int floor;
-    int ceiling;
-    int i;
-
-    
-    i = 0;
-    no_texture = 0;
-    so_texture = 0;
-    we_texture = 0;
-    ea_texture = 0;
-    floor = 0;
-    ceiling = 0;
-   
-    while (i < 6)
+    t_program data;
+    init_data(&data);
+    while (data.i < 6)
     {
-        if (!ft_strncmp(arr[i], "NO ", 3))
-            no_texture++;
-        else if (!ft_strncmp(arr[i], "SO ", 3))
-            so_texture++;
-        else if (!ft_strncmp(arr[i], "WE ", 3))
-            we_texture++;
-        else if (!ft_strncmp(arr[i], "EA ", 3))
-            ea_texture++;
-        else if (!ft_strncmp(arr[i], "F ", 2))
-            floor++;
-        else if (!ft_strncmp(arr[i], "C ", 2))
-            ceiling++;
+        if (!ft_strncmp(arr[data.i], "NO ", 3))
+            data.no_texture++;
+        else if (!ft_strncmp(arr[data.i], "SO ", 3))
+            data.so_texture++;
+        else if (!ft_strncmp(arr[data.i], "WE ", 3))
+            data.we_texture++;
+        else if (!ft_strncmp(arr[data.i], "EA ", 3))
+            data.ea_texture++;
+        else if (!ft_strncmp(arr[data.i], "F ", 2))
+            data.floor++;
+        else if (!ft_strncmp(arr[data.i], "C ", 2))
+            data.ceiling++;
         else
             ft_exit("Map before/mid info map\n"); // go other func check what is the content
-        i++;
+        data.i++;
     }
-    if (no_texture != 1 ||  so_texture != 1 ||  we_texture != 1 ||  ea_texture != 1 ||  
-            floor != 1 ||  ceiling != 1)
+    if (data.no_texture != 1 || data.so_texture != 1 || data.we_texture != 1 || data.ea_texture != 1 ||  
+        data.floor != 1 || data.ceiling != 1)
         ft_exit("Missing or duplicated texture or RGB colors\n");
 }
 
@@ -60,7 +56,21 @@ void check_rgb_value (char *value, char type)
         ft_error(type);
 }
 
-
+void count_comma (char *s, char type)
+{
+    int n;
+    n = 0;
+    if (!s)
+        ft_error(type);
+    while (*s)
+    {
+        if (*s == ',')
+            n++;
+        s++;
+    }
+    if (n != 2)
+        ft_error(type);
+}
 void check_rgb_colors( char **arr, char *s)
 {
     int i;
@@ -68,14 +78,13 @@ void check_rgb_colors( char **arr, char *s)
     char **tmp;
     while (arr[i] && ft_strncmp(arr[i], s, 2))
         i++;
+    count_comma(arr[i], *s);
     if (arr [i] && arr[i][0] == *s && arr[i][1] == ' ')
     {
         tmp = ft_split(&arr[i][2], ',');
         i = -1;
         while (tmp[++i])
             check_rgb_value(tmp[i], *s);
-        if (i != 3)
-            ft_error(*s);
     }
 }
 
