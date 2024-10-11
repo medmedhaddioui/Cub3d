@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "libft/libft.h"
+#include <mlx.h>
 
 typedef struct s_program
 {
@@ -18,10 +19,13 @@ typedef struct s_program
     int ceiling;
 } t_program;
 
-
 typedef struct s_map
 {
     char **arr;
+    int height_player;
+    int width_player;
+    int height;
+    int width;
 
 }t_map;
 
@@ -38,7 +42,7 @@ void check_map_is_closed(char **arr);
 void read_map(t_map *map_info, char *filename);
 int  compare_tool (char *s);
 int	modified_ft_atoi(const char *nptr);
-void check_is_OnePlayer(char **arr);
+void check_is_OnePlayer(char **arr, t_map *map_info);
 int find_component(char c);
 //errors
 void ft_error (char type);

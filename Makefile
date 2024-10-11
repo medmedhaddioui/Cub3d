@@ -7,7 +7,10 @@ SRC = main.c parsing/check_components.c parsing/check_map_info.c \
 OBJ = $(SRC:.c=.o)
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror #-fsanitize=address
+CFLAGS = -Wall -Wextra -Werror
+#-fsanitize=address
+
+FLAG = -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz 
 
 LIBFT_A = libft/libft.a
 
@@ -15,7 +18,7 @@ all : $(NAME)
 
 $(NAME): $(SRC)
 	$(MAKE) -C ./libft
-	$(CC) $(CFLAGS) $(SRC) $(LIBFT_A) -o $(NAME)
+	$(CC) $(CFLAGS) $(SRC) $(FLAG) $(LIBFT_A) -o $(NAME)
 
 clean:
 	cd libft && rm -rf *.o

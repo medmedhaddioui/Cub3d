@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 12:36:01 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/10/09 21:39:38 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/10/10 21:14:24 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void check_isvalid_mapinfo(t_map *map_info)
 }
 void check_isvalid_map (t_map *map_info)
 {
-    check_is_OnePlayer(map_info->arr + 6);
+    check_is_OnePlayer(map_info->arr + 6, map_info);
     check_map_is_closed(map_info->arr + 6);   
 }
 

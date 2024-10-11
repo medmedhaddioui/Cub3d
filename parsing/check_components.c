@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 12:41:11 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/10/09 21:41:31 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/10/10 21:16:39 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,16 @@ int  compare_tool (char *s)
     return 1;
 }
 
-void check_is_OnePlayer(char **arr)
+int  get_index_player (int y, int x, t_map *map)
 {
+    map->height_player = y;
+    map->width_player = x;
+    return 1;
+}
+
+void check_is_OnePlayer(char **arr, t_map *map_info)
+{
+    
     int i;
     i = 0;
     int j;
@@ -42,7 +50,8 @@ void check_is_OnePlayer(char **arr)
         {
             if (!find_component(arr[i][j]))
                 found++;
-            if (arr[i][j] == 'N' || arr[i][j] == 'S' ||arr[i][j] == 'W' || arr[i][j] == 'E')
+            if ((arr[i][j] == 'N' || arr[i][j] == 'S' ||arr[i][j] == 'W' || arr[i][j] == 'E') 
+                && get_index_player(i,j, map_info))
                 player++;
             j++;
         }
