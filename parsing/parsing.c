@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 12:36:01 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/10/10 21:14:24 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/11/19 23:54:42 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,10 @@ void parsing (t_map *map_info, char *filename)
     len = ft_strlen(filename) - 4;
     if (ft_strncmp(filename + len, ".cub", 4))
         ft_exit("filename must end with .cub\n");
+    
     read_map(map_info, filename);
     remove_whitspaces(map_info);
-    check_map_infos_components(map_info->arr);
+    check_map_infos_components(map_info->arr); // components check
     check_isvalid_mapinfo(map_info); //textures and colors
     check_isvalid_map(map_info); // map
     return ;

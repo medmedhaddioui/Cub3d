@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 12:32:16 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/10/09 21:21:05 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/11/19 22:08:55 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int check_map_content(char *str)
     int i;
     i = 0;
     if (is_newline(str))
-        return 0;
+        return 0 ;
     while (str[i] && str[i] == ' ')
         i++;
     if (!str[i])
@@ -60,12 +60,13 @@ void check_error_type(char *line)
 }
 int  check_map_newline(char *str, bool flag, int *fd, char *line)
 {
+    bool flag_2 = false;
     if (flag == true && is_newline(str))
     {
         while ((str = get_next_line(*fd)))
         {
             line = ft_strjoin (line, str);
-            if (!is_newline(str))
+            if (is_newline(str) && flag_2)
                 check_error_type(line);
             free(str);
         }
@@ -85,6 +86,7 @@ void read_map(t_map *map_info, char *filename)
     fd = open(filename, O_RDONLY, 0666);
     if (fd == -1)
         ft_exit("Error in Filemap\n");
+    flag = false;
     while ((str = get_next_line(fd)))
     {
         if (!flag && check_map_content(str))

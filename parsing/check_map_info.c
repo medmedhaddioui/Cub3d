@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 12:43:51 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/10/09 21:39:46 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/11/19 23:57:07 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void check_textures_colors(char **arr)
         data.i++;
     }
     if (data.no_texture != 1 || data.so_texture != 1 || data.we_texture != 1 || data.ea_texture != 1 ||  
-        data.floor != 1 || data.ceiling != 1)
+        data.floor != 1 || data.ceiling != 1 || !compare_tool(arr[data.i]))
         ft_exit("Missing or duplicated texture or RGB colors\n");
     if (flag)
         ft_exit("Map before/mid info map !!\n");
@@ -57,7 +57,7 @@ void check_rgb_value (char *value, char type)
 {
     while (*value)
     {
-        if (!ft_isdigit(*value))
+        if (!ft_isdigit(*value) &&  *value != ' ' && *value != '\t')
             ft_error(type);
         value++;
     }

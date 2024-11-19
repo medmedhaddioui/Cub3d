@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 12:41:11 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/10/10 21:16:39 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/11/19 22:16:58 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ int  compare_tool (char *s)
 
 int  get_index_player (int y, int x, t_map *map)
 {
-    map->height_player = y;
-    map->width_player = x;
+    map->y_player = y;
+    map->x_player = x;
     return 1;
 }
 

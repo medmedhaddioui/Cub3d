@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "libft/libft.h"
-#include <mlx.h>
+// #include <mlx.h>
 
 typedef struct s_program
 {
@@ -22,10 +22,12 @@ typedef struct s_program
 typedef struct s_map
 {
     char **arr;
-    int height_player;
-    int width_player;
+    int y_player;
+    int x_player;
     int height;
     int width;
+    int floor_color;
+    int cellling_color;
 
 }t_map;
 
