@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 12:43:51 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/11/19 23:57:07 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/11/22 16:06:41 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,12 @@ void check_textures_colors(char **arr)
 
 void check_rgb_value (char *value, char type)
 {
-    while (*value)
+    int i;
+    i = -1;
+    while (value[++i])
     {
-        if (!ft_isdigit(*value) &&  *value != ' ' && *value != '\t')
+        if (!ft_isdigit(value[i]) &&  value[i] != ' ' && value[i] != '\t')
             ft_error(type);
-        value++;
     }
     if (modified_ft_atoi(value) == -1)
         ft_error(type);
@@ -80,7 +81,13 @@ void count_comma (char *s, char type)
     if (n != 2)
         ft_error(type);
 }
-void check_rgb_colors( char **arr, char *s)
+
+int merge_colors(char **arr)
+{
+    
+    return((ft_atoi(arr[0]) << 16 ) + (ft_atoi(arr[1]) << 8 ) + ft_atoi(arr[2])); 
+}
+void check_rgb_colors( char **arr, char *s, int *color)
 {
     int i;
     i = 0;
@@ -96,9 +103,9 @@ void check_rgb_colors( char **arr, char *s)
             check_rgb_value(tmp[i], *s);
         if (i != 3)
             ft_error(*s);
+        *color = merge_colors(tmp);
     }
 }
-
 
 void check_is_xmp(char *path)
 {

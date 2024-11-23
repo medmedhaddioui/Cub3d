@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 12:36:01 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/11/19 23:54:42 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/11/23 22:23:05 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ void check_isvalid_mapinfo(t_map *map_info)
 {
     check_textures_colors (map_info->arr);
     check_xmp_textures(map_info->arr);
-    check_rgb_colors(map_info->arr, "C "); 
-    check_rgb_colors(map_info->arr, "F ");
+    check_rgb_colors(map_info->arr, "C ", &map_info->ceiling_color); 
+    check_rgb_colors(map_info->arr, "F ", &map_info->floor_color);
 }
 void check_isvalid_map (t_map *map_info)
 {
@@ -73,5 +73,6 @@ void parsing (t_map *map_info, char *filename)
     check_map_infos_components(map_info->arr); // components check
     check_isvalid_mapinfo(map_info); //textures and colors
     check_isvalid_map(map_info); // map
+    get_height_width_map(map);
     return ;
 }

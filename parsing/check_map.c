@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 12:43:05 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/10/08 17:04:48 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/11/21 01:33:58 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void check_Element_iswall(char **arr, int height, int width)
 {
     if (check_pos(arr[height - 1][width]) || check_pos(arr[height + 1][width]) ||
         check_pos(arr[height][width + 1]) || check_pos(arr[height][width - 1]))
-        ft_exit("Map not closed wst\n");
+        ft_exit("Map not closed !!\n");
 }
 void check_map_is_closed(char **arr)
 {

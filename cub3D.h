@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "libft/libft.h"
-// #include <mlx.h>
+#include <mlx.h>
 
 typedef struct s_program
 {
@@ -19,6 +19,16 @@ typedef struct s_program
     int ceiling;
 } t_program;
 
+typedef struct	s_mlx 
+{
+    void    *mlx;
+    void    *window;
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+}				t_mlx;
 typedef struct s_map
 {
     char **arr;
@@ -27,18 +37,19 @@ typedef struct s_map
     int height;
     int width;
     int floor_color;
-    int cellling_color;
+    int ceiling_color;
 
 }t_map;
 
 //parsing
 void ft_exit (char *str);
+void get_height_width_map(t_map *map);
 void parsing (t_map *map_info, char *filename);
 void check_isvalid_map (t_map *map_info);
 void check_isvalid_mapinfo(t_map *map_info);
 void check_map_infos_components(char **arr);
 void check_xmp_textures(char **arr);
-void check_rgb_colors( char **arr, char *s);
+void check_rgb_colors( char **arr, char *s,int *color);
 void check_textures_colors(char **arr);
 void check_map_is_closed(char **arr);
 void read_map(t_map *map_info, char *filename);
