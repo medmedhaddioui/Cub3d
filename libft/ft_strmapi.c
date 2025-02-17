@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noudrib <noudrib@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/07 14:58:26 by mel-hadd          #+#    #+#             */
-/*   Updated: 2023/11/18 18:33:21 by mel-hadd         ###   ########.fr       */
+/*   Created: 2023/11/02 18:39:06 by noudrib           #+#    #+#             */
+/*   Updated: 2023/11/15 20:24:53 by noudrib          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,33 @@
 
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	unsigned int	i;
-	char			*str;
+	int		i;
+	char	*str;
 
 	i = 0;
 	if (!s || !f)
 		return (NULL);
-	while (s[i] != '\0')
-		i++;
-	str = malloc(i * sizeof(char) + 1);
-	if (!str)
+	str = (char *) malloc((ft_strlen(s) + 1) * sizeof(char));
+	if (str == NULL)
 		return (NULL);
-	i = 0;
-	while (s[i] != '\0')
+	while (s[i])
 	{
 		str[i] = f(i, s[i]);
 		i++;
 	}
-	str[i] = '\0';
+	str[i] = 0;
 	return (str);
 }
+
+/*static char f(unsigned int i, char c)
+{
+    (void) i;
+    return (c - 1);
+}*/
+/*int main(void)
+{
+    char *s = "hello world";
+    char *str = ft_strmapi(s, &f);
+    printf("%s\n", str);
+    return (0);
+}*/

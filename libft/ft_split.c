@@ -3,95 +3,123 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noudrib <noudrib@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/05 20:19:14 by mel-hadd          #+#    #+#             */
-/*   Updated: 2023/11/18 18:27:23 by mel-hadd         ###   ########.fr       */
+/*   Created: 2023/11/03 21:44:59 by noudrib           #+#    #+#             */
+/*   Updated: 2024/03/18 23:53:21 by noudrib          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	ft_free_memory(char **s, int count)
+static	int	is_sep(char c, char sep)
 {
-	int	i;
-
-	i = 0;
-	while (i < count)
-	{
-		free(s[i]);
-		i++;
-	}
-	free(s);
-	return (1);
+	if (c == sep || c == 0)
+		return (1);
+	return (0);
 }
 
-static int	ft_word(char *s, char c)
-{
-	int	i;
-	int	count;
-
-	count = 0;
-	i = 0;
-	while (s[i])
-	{
-		while (s[i] == c && s[i])
-			i++;
-		if (s[i] != c && s[i])
-			count++;
-		while (s[i] != c && s[i])
-			i++;
-	}
-	return (count);
-}
-
-static char	*ft_alloc_dup_word(char *s, char c)
+static char	*ft_word(const char *s, char sep)
 {
 	int		i;
 	char	*word;
-	int		len;
 
-	len = 0;
 	i = 0;
-	while (s[len] != c && s[len])
-		len++;
-	word = (char *)malloc((len + 1) * sizeof(char));
+	while (s[i] && s[i] != sep)
+		i++;
+	word = (char *) malloc((i + 1) * sizeof(char));
 	if (!word)
 		return (NULL);
+	ft_memcpy(word, s, i);
+	word[i] = 0;
+	return (word);
+}
+
+static	char	**split_alloc(char ***split, const char *s, char c, int len)
+{
+	int	i;
+	int	word_count;
+
+	i = 0;
+	word_count = 0;
 	while (i < len)
 	{
-		word[i] = s[i];
+		if (!is_sep(s[i], c) && is_sep(s[i + 1], c))
+			word_count++;
 		i++;
 	}
-	word[i] = '\0';
-	return (word);
+	*split = (char **) malloc((word_count + 1) * sizeof(char *));
+	if (!*split)
+		return (NULL);
+	(*split)[word_count] = 0;
+	return (*split);
+}
+
+static	int	word_alloc(char ***split, const char *s, char c, int j)
+{
+	int	i;
+	int	k;
+	int	len;
+
+	i = 0;
+	k = 0;
+	len = ft_strlen(s);
+	while (i < len)
+	{
+		if (is_sep(s[i], c) && !is_sep(s[i + 1], c))
+		{
+			(*split)[j] = ft_word(s + i + 1, c);
+			if ((*split)[j] == 0)
+			{
+				while (k < j)
+					free((*split)[k++]);
+				free(*split);
+				return (0);
+			}
+			j++;
+		}
+		i++;
+	}
+	return (1);
 }
 
 char	**ft_split(char const *s, char c)
 {
-	size_t	count;
-	char	**tab;
+	int		i;
+	int		len;
+	char	**split;
 
-	if (!s)
+	i = 0;
+	if (s == 0)
 		return (NULL);
-	count = 0;
-	tab = malloc((ft_word((char *)s, c) + 1) * sizeof(char *));
-	if (!tab)
+	len = ft_strlen(s);
+	split = NULL;
+	if (!split_alloc(&split, s, c, len))
 		return (NULL);
-	while (*s)
+	if (!is_sep(s[0], c))
 	{
-		if (*s == c)
-			s++;
-		else if (*s != c)
+		split[i] = ft_word(s, c);
+		if (!split[i])
 		{
-			tab[count] = ft_alloc_dup_word((char *)s, c);
-			if (!tab[count] && ft_free_memory(tab, count))
-				return (NULL);
-			count++;
-			while (*s != c && *s)
-				s++;
+			free (split);
+			return (NULL);
 		}
+		i++;
 	}
-	tab[count] = 0;
-	return (tab);
+	if (!word_alloc(&split, s, c, i))
+		return (NULL);
+	return (split);
 }
+
+// int main()
+// {
+// 	int	i = 0;
+//     char str[] = "   ";
+//     char **array = ft_split(str, ' ');
+// 	if (array[i] == NULL)
+// 		printf("%s", array[i]);
+// 	while (array[i])
+//         printf("%s:\n", array[i++]);
+// 	free(array);
+//     return (0);
+// }

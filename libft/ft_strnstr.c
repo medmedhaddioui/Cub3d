@@ -3,30 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noudrib <noudrib@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/01 17:04:14 by mel-hadd          #+#    #+#             */
-/*   Updated: 2023/11/20 19:56:52 by mel-hadd         ###   ########.fr       */
+/*   Created: 2023/11/01 16:55:35 by noudrib           #+#    #+#             */
+/*   Updated: 2023/11/21 12:23:39 by noudrib          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
+char	*ft_strnstr(const char *big, const char *little, size_t len)
 {
-	size_t	i;
+	unsigned int	i;
+	unsigned int	j;
 
-	if (!haystack && len == 0)
+	i = 0;
+	if (!big && !len)
 		return (NULL);
-	if (*needle == 0 || haystack == needle)
-		return ((char *)haystack);
-	i = ft_strlen(needle);
-	while (*haystack && i <= len)
-	{
-		if (!(ft_strncmp((char *)haystack, (char *)needle, i)))
-			return ((char *)haystack);
-		haystack++;
-		len--;
-	}
-	return (NULL);
+	else if (*little == 0)
+		return ((char *)big);
+	j = ft_strlen(little);
+	while (ft_strncmp(big + i, little, j) != 0 && big[i])
+		i++;
+	if (len <= i || !big[i])
+		return (NULL);
+	else if (len - i < j)
+		return (NULL);
+	return ((char *)big + i);
 }
+
+/*int main(void)
+{
+    char big[] = "aaabcabcd";
+    //char little[] = "cd";
+    printf("%s\n", ft_strnstr(big, NULL, 5));
+    //printf("%s\n", strnstr(big, little, 3));
+}*/

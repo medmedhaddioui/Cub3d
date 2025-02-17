@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noudrib <noudrib@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/05 16:18:57 by mel-hadd          #+#    #+#             */
-/*   Updated: 2023/11/21 17:14:09 by mel-hadd         ###   ########.fr       */
+/*   Created: 2023/11/04 21:33:45 by noudrib           #+#    #+#             */
+/*   Updated: 2023/11/21 14:34:32 by noudrib          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,29 @@
 
 size_t	ft_strlcat(char *dst, const char *src, size_t size)
 {
-	size_t	i;
-	size_t	j;
-	size_t	dest_length;
-	size_t	src_length;
+	unsigned int	i;
+	unsigned int	dest_lenth;
 
-	if (size == 0 && !dst)
-		return (ft_strlen(src));
-	src_length = ft_strlen(src);
-	dest_length = ft_strlen(dst);
-	j = dest_length;
 	i = 0;
-	if (dest_length < size - 1 && size > 0)
+	if (!size)
+		return (ft_strlen(src));
+	dest_lenth = ft_strlen(dst);
+	if ((size <= dest_lenth) || (size == 0))
+		return (size + ft_strlen(src));
+	while (src[i] && i < size - dest_lenth - 1)
 	{
-		while (src[i] && dest_length + i < size - 1)
-		{
-			dst[j] = src[i];
-			j++;
-			i++;
-		}
-		dst[j] = 0;
+		dst[dest_lenth + i] = src[i];
+		i++;
 	}
-	if (dest_length >= size)
-		dest_length = size;
-	return (dest_length + src_length);
+	dst[dest_lenth + i] = '\0';
+	return (dest_lenth + ft_strlen(src));
 }
+
+/*int main(void)
+{
+	//char dst[30] = "hello i'm ";
+	char *str ="noaman";
+    //printf("%d\n", ft_strncmp(0, 0, 0));
+    printf("%lu\n", ft_strlcat(NULL, str, 5));
+    return (0);
+}*/

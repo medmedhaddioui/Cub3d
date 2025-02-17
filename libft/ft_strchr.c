@@ -3,20 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noudrib <noudrib@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/01 11:24:20 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/02/29 11:25:15 by mel-hadd         ###   ########.fr       */
+/*   Created: 2023/11/01 18:54:36 by noudrib           #+#    #+#             */
+/*   Updated: 2023/11/21 11:16:59 by noudrib          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strchr(const char	*s, int c)
+char	*ft_strchr(const char *s, int c)
 {
-	while (*s && *s != (char) c)
+	while (*s != (char)c && *s)
 		s++;
 	if (*s == (char)c)
-		return ((char *) s);
+		return ((char *)s);
 	return (NULL);
 }
+
+/*int main(void)
+{
+    char str[] = "iafaodobnaad";
+    //str[4] = 0;
+    printf("%s\n", strchr(str, 0));
+    //printf("%s\n", ft_strchr(str, 0) + 1);
+    //printf("%p\n", ft_strchr("hello i'm noaman", 'x'));
+    return (0);
+}*/

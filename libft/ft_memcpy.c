@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noudrib <noudrib@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/31 18:18:10 by mel-hadd          #+#    #+#             */
-/*   Updated: 2023/11/19 12:22:35 by mel-hadd         ###   ########.fr       */
+/*   Created: 2023/11/01 18:54:43 by noudrib           #+#    #+#             */
+/*   Updated: 2023/11/21 15:13:28 by noudrib          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,26 @@
 
 void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
-	size_t			i;
-	unsigned char	*dst;
+	size_t	i;
 
-	if (!dest && !src)
-		return (NULL);
-	if (dest == src)
-		return (dest);
 	i = 0;
-	dst = (unsigned char *)dest;
+	if (!dest && !src)
+		return (dest);
+	else if (dest == src)
+		return (dest);
 	while (i < n)
 	{
-		*dst = *(unsigned char *)src;
+		*((char *)dest + i) = *((char *)src + i);
 		i++;
-		dst++;
-		src++;
 	}
 	return (dest);
 }
+
+/*int main(void)
+{
+    char *dest1 = "hello world";
+    //char src1[] = "xxxxxxx";
+    //ft_memcpy(NULL, NULL, 0);
+    printf("%s\n", memcpy(dest1, NULL, 0));
+    return (0);
+}*/

@@ -3,30 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noudrib <noudrib@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/05 12:03:27 by mel-hadd          #+#    #+#             */
-/*   Updated: 2023/11/16 19:17:13 by mel-hadd         ###   ########.fr       */
+/*   Created: 2023/11/04 21:27:42 by noudrib           #+#    #+#             */
+/*   Updated: 2023/11/21 14:36:10 by noudrib          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
+size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 {
-	size_t	len;
+	size_t	i;
+	size_t	lenth_src;
 
-	len = ft_strlen(src);
-	if (dstsize == 0)
-		return (len);
-	len = 0;
-	while (len < dstsize - 1 && src[len] != '\0')
+	i = 0;
+	lenth_src = ft_strlen(src);
+	if (size != 0)
 	{
-		dst[len] = src[len];
-		len++;
+		while (src[i] && i < size - 1)
+		{
+			dst[i] = src[i];
+			i++;
+		}
+		dst[i] = '\0';
 	}
-	if (len < dstsize)
-		dst[len] = '\0';
-	len = ft_strlen(src);
-	return (len);
+	return (lenth_src);
 }
+
+/*int main(void)
+{
+	char dst[30] = "hello i'm ";
+	char *str ="noaman";
+    //printf("%d\n", ft_strncmp(0, 0, 0));
+    printf("%lu\n", strlcpy(dst, str, 10));
+    return (0);
+}*/

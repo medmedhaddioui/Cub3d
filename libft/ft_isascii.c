@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isascii.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noudrib <noudrib@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/31 22:37:33 by mel-hadd          #+#    #+#             */
-/*   Updated: 2023/11/04 21:38:53 by mel-hadd         ###   ########.fr       */
+/*   Created: 2023/11/01 18:55:02 by noudrib           #+#    #+#             */
+/*   Updated: 2023/11/14 21:10:56 by noudrib          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,3 +18,13 @@ int	ft_isascii(int c)
 		return (1);
 	return (0);
 }
+
+/*int main(void)
+{
+    printf("%d\n", ft_isascii('A'));
+    printf("%d\n", ft_isascii('B'));
+    printf("%d\n", ft_isascii('5'));
+    printf("%d\n", ft_isascii(130));
+    printf("%d\n", ft_isascii('/'));
+    return (0);
+}*/

@@ -1,33 +1,26 @@
-NAME = cub3D
 
-SRC = main.c parsing/check_components.c parsing/check_map_info.c \
-		parsing/check_map.c parsing/get_file_data.c parsing/parsing.c \
-		parsing/utils.c
+SRCS = srcs
 
-OBJ = $(SRC:.c=.o)
+NAME = cub3d
 
-CC = cc
-CFLAGS = -Wall -Wextra -Werror
-#-fsanitize=address
+LIBFT = libft
 
-FLAG = -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz 
+all :
+	make -C $(LIBFT)
+	make -C $(SRCS)
 
-LIBFT_A = libft/libft.a
+bonus : 
+	make -C $(LIBFT)
+	make bonus -C $(SRCS)
 
-all : $(NAME)
+clean :
+	make clean -C $(LIBFT)
+	make clean -C $(SRCS)
 
-$(NAME): $(SRC)
-	$(MAKE) -C ./libft
-	$(CC) $(CFLAGS) $(SRC) $(FLAG) $(LIBFT_A) -o $(NAME)
+fclean : clean
+	rm -f $(NAME)
+	make fclean -C $(LIBFT)
 
-clean:
-	cd libft && rm -rf *.o
-	rm -rf $(OBJ)
+re : fclean all
 
-fclean: clean
-	rm -rf $(NAME)
-	cd libft && rm -rf libft.a
-
-re: fclean all
-
-.PHONY: all clean fclean re
+.PHONY:  all clean fclean re

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noudrib <noudrib@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/04 12:57:52 by mel-hadd          #+#    #+#             */
-/*   Updated: 2023/11/19 15:13:44 by mel-hadd         ###   ########.fr       */
+/*   Created: 2023/11/02 17:36:35 by noudrib           #+#    #+#             */
+/*   Updated: 2023/11/15 20:32:49 by noudrib          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,37 @@ void	ft_putnbr_fd(int n, int fd)
 		return ;
 	if (n == -2147483648)
 	{
-		write(fd, "-2147483648", 11);
+		ft_putstr_fd("-2147483648", fd);
 		return ;
 	}
-	if (n > 9)
-		ft_putnbr_fd((n / 10), fd);
 	if (n < 0)
 	{
 		n *= -1;
 		ft_putchar_fd('-', fd);
-		ft_putnbr_fd(n, fd);
 	}
-	else
-		ft_putchar_fd(n % 10 + '0', fd);
+	if (n / 10 == 0)
+	{
+		ft_putchar_fd(n + 48, fd);
+		return ;
+	}
+	ft_putnbr_fd(n / 10, fd);
+	ft_putchar_fd((n % 10) + 48, fd);
 }
+
+/*int main(void)
+{
+    //ft_putnbr_fd(351, 1);
+    ft_putnbr_fd(-2147483648, 1);
+    ft_putchar_fd('\n', 1);
+    ft_putnbr_fd(9, 1);
+    ft_putchar_fd('\n', 1);
+    ft_putnbr_fd(-984548, 1);
+    ft_putchar_fd('\n', 1);
+    ft_putnbr_fd(-2147483647, 1);
+    ft_putchar_fd('\n', 1);
+    ft_putnbr_fd(2147483647, 1);
+    ft_putchar_fd('\n', 1);
+    ft_putnbr_fd(0, 1);
+    
+    return (0);
+}*/

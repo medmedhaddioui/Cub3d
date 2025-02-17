@@ -1,46 +1,39 @@
+SRCS = ft_memset.c ft_bzero.c ft_memcpy.c ft_memmove.c ft_memchr.c ft_memcmp.c ft_strlen.c \
+		ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c ft_toupper.c ft_tolower.c ft_strchr.c \
+		ft_strrchr.c ft_strncmp.c ft_strlcpy.c ft_strlcat.c ft_strnstr.c ft_atoi.c ft_calloc.c ft_strdup.c \
+		ft_substr.c ft_strjoin.c ft_strtrim.c ft_split.c ft_itoa.c ft_strmapi.c ft_striteri.c ft_strcmp.c\
+		ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c\
+		ft_lstnew_bonus.c ft_lstadd_front_bonus.c ft_lstsize_bonus.c ft_lstlast_bonus.c ft_lstadd_back_bonus.c \
+		ft_lstdelone_bonus.c ft_lstclear_bonus.c ft_lstiter_bonus.c ft_lstmap_bonus.c\
+		printf_char_fd.c printf_str_fd.c printf_nbr_fd.c ft_printf.c\
+		printf_addr_hex.c printf_unsi_nbr.c printf_hex.c\
+		get_next_line.c get_next_line_utils.c ft_strjoin_2.c
+
+#OBJS_DIR = bin
+
+#OBJ = $(addprefix $(OBJS_DIR)/, $(SRCS:.c=.o))
+
+OBJ = $(SRCS:.c=.o)
+
+CC = cc
+
+CFLAGS = -Wall -Wextra -Werror -I Inc #-fsanitize=address
 NAME = libft.a
 
-SRC 	=	ft_isalnum.c ft_isprint.c ft_memcmp.c  ft_putchar_fd.c ft_split.c \
-			ft_strlcat.c ft_strncmp.c ft_substr.c ft_atoi.c ft_isalpha.c \
-			ft_itoa.c ft_putendl_fd.c ft_strchr.c  ft_strlcpy.c \
-			ft_strnstr.c ft_tolower.c ft_bzero.c   ft_isascii.c ft_memcpy.c \
-			ft_memmove.c ft_putnbr_fd.c  ft_strdup.c  ft_strlen.c  ft_strrchr.c \
-			ft_toupper.c ft_calloc.c  ft_isdigit.c ft_memchr.c  ft_memset.c  \
-			ft_putstr_fd.c  ft_strjoin.c ft_strmapi.c ft_strtrim.c ft_striteri.c \
-			get_next_line.c get_next_line_utils.c ft_strcmp.c\
+all : $(NAME)
 
-OBJS = $(SRC:.c=.o)
+%.o : %.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
-BSRCS   =	ft_lstadd_back_bonus.c ft_lstadd_front_bonus.c ft_lstclear_bonus.c \
-			ft_lstdelone_bonus.c ft_lstiter_bonus.c ft_lstlast_bonus.c \
-			ft_lstnew_bonus.c ft_lstsize_bonus.c ft_lstmap_bonus.c \
+$(NAME) : $(OBJ)
+	ar -rcs $(NAME) $?
 
-OBJSB= $(BSRCS:.c=.o)
+clean :
+	rm -f $(OBJ)
 
-RM = rm -f
-CC = cc
-CFLAGS = -Wall -Wextra -Werror
+fclean : clean
+	rm -f $(NAME)
 
-all: $(NAME)
+re : fclean all
 
-$(NAME): $(OBJS)
-	ar -rcs $(NAME) $(OBJS)
-
-%.o: %.c
-	$(CC) $(CFLAGS) -c $^
-
-bonus: $(OBJSB)
-
-$(OBJSB): $(BSRCS)
-	$(CC) $(CFLAGS) -c $(BSRCS)
-	ar -rcs $(NAME) $(OBJSB)
-
-clean:
-	$(RM) $(OBJS) $(OBJSB)
-
-fclean: clean
-		$(RM) $(NAME)
-
-re: fclean $(NAME)
-
-.PHONY: all bonus clean fclean re
+.PHONY:  all clean fclean re

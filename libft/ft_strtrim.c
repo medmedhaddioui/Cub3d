@@ -3,40 +3,54 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noudrib <noudrib@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/02 18:21:47 by mel-hadd          #+#    #+#             */
-/*   Updated: 2023/11/19 12:27:55 by mel-hadd         ###   ########.fr       */
+/*   Created: 2023/11/02 14:44:15 by noudrib           #+#    #+#             */
+/*   Updated: 2023/11/21 15:16:50 by noudrib          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
+static int	in_set(char const *set, char c)
+{
+	while (*set)
+	{
+		if (*set == c)
+			return (1);
+		set++;
+	}
+	return (0);
+}
+
 char	*ft_strtrim(char const *s1, char const *set)
 {
 	int		i;
-	int		j;
-	int		start;
-	int		end;
-	char	*tab;
+	char	*trim;
 
-	if (!s1 || !set)
+	if (!set || !*set)
+		return (ft_strdup(s1));
+	else if (!s1)
 		return (NULL);
-	i = 0;
-	j = ft_strlen(s1);
-	j--;
-	while (s1[i] && ft_strchr(set, s1[i]))
-		i++;
-	while (j > i && ft_strchr(set, s1[j]))
-		j--;
-	start = i;
-	end = j;
-	tab = (char *)malloc((end - start) * sizeof(char) + 2);
-	if (tab == NULL)
+	while (in_set(set, *s1))
+		s1++;
+	if (ft_strlen(s1) == 0)
+		return (ft_strdup(""));
+	i = ft_strlen(s1) - 1;
+	while (in_set(set, *(s1 + i)))
+		i--;
+	trim = (char *) ft_calloc(i + 2, sizeof(char));
+	if (trim == NULL)
 		return (NULL);
-	i = 0;
-	while (start <= end)
-		tab[i++] = s1[start++];
-	tab[i] = '\0';
-	return (tab);
+	ft_memcpy(trim, s1, i + 1);
+	return (trim);
 }
+
+/*int main(void)
+{
+    char s1[] = "#+=/#hello i'm noaman oudrib, i'm a student#+=-+-/#";
+    char *set = "#+-= /";
+    char *trim = ft_strtrim(s1, set);
+    printf("%s::\n", trim);
+    return (0);
+}*/

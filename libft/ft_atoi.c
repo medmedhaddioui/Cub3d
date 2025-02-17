@@ -3,34 +3,68 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noudrib <noudrib@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/01 20:42:46 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/03/12 15:30:29 by mel-hadd         ###   ########.fr       */
+/*   Created: 2023/11/01 18:53:41 by noudrib           #+#    #+#             */
+/*   Updated: 2024/03/23 21:43:38 by noudrib          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "limits.h"
 
-int	ft_atoi(const char *nptr)
+long	ft_atoi(const char *str)
 {
-	int	sign;
-	int	result;
+	int		i;
+	long	num;
+	int		sign;
 
+	i = 0;
+	num = 0;
 	sign = 1;
-	result = 0;
-	while (*nptr == ' ' || (*nptr >= 9 && *nptr <= 13))
-		nptr++;
-	if (*nptr == '-' || *nptr == '+')
+	while ((str[i] >= 9 && str[i] <= 13) || str[i] == ' ')
+		i++;
+	if (str[i] == '-' || str[i] == '+')
+		if (str[i++] == '-')
+			sign = -1;
+	while (ft_isdigit(str[i]))
 	{
-		if (*nptr == '-')
-			sign *= -1;
-		nptr++;
+		num = num * 10 + str[i++] - 48;
+		if ((sign == 1 && num > INT_MAX) || (sign == -1 && - num < INT_MIN))
+			return ((long)INT_MAX + 1);
 	}
-	while (*nptr >= '0' && *nptr <= '9')
-	{
-		result = result * 10 + (*nptr - '0');
-		nptr++;
-	}
-	return (sign * result);
+	return (sign * num);
 }
+
+// int main(void)
+// {
+//     //char *str1 = "2147483647";
+//     // char *str2 = "+\t   -4935163hgadc99";
+//     // char *str3 = "  1235163uhwr494";
+//     // char *str4 = "\n\n\n  -46\b9 \n5d6";
+//     // char *str5 = "+0163wef651";
+//     // char *str6 = "+w5163fwf6515";
+//     // char *str7 = "-2147483648";
+//     // char *str8 = "";
+//     //char *str9 = NULL;
+//     printf("%d\n", LONG_MAX);
+//     // printf("%d\n", ft_atoi(str2));
+//     // printf("%d\n", ft_atoi(str3));
+//     // printf("%d\n", ft_atoi(str4));
+//     // printf("%d\n", ft_atoi(str5));
+//     // printf("%d\n", ft_atoi(str6));
+//     // printf("%d\n", ft_atoi(str7));
+//     // printf("%d\n", ft_atoi(str8));
+//     // //printf("%d\n", atoi(str9));
+//     // printf("################\n");
+//     // printf("%d\n", atoi(str1));
+//     // printf("%d\n", atoi(str2));
+//     // printf("%d\n", atoi(str3));
+//     // printf("%d\n", atoi(str4));
+//     // printf("%d\n", atoi(str5));
+//     // printf("%d\n", atoi(str6));
+//     // printf("%d\n", atoi(str1));
+//     // printf("%d\n", ft_atoi(str1));
+//     // //printf("%d\n", atoi(str9));
+//     return (0);
+// }

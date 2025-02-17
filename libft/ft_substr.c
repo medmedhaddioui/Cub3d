@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noudrib <noudrib@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/02 15:07:55 by mel-hadd          #+#    #+#             */
-/*   Updated: 2023/11/18 18:24:28 by mel-hadd         ###   ########.fr       */
+/*   Created: 2023/11/02 11:27:13 by noudrib           #+#    #+#             */
+/*   Updated: 2023/11/21 15:08:26 by noudrib          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,27 @@
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	size_t	i;
-	char	*ptr;
+	char			*str;
+	unsigned int	j;
 
-	i = 0;
-	if (!s)
+	if (s == NULL)
 		return (NULL);
-	if (start >= ft_strlen(s))
-	{
-		ptr = ft_strdup("");
-		return (ptr);
-	}
-	else if (len > ft_strlen(s + start))
-		len = ft_strlen(s + start);
-	ptr = (char *)malloc((len + 1) * sizeof(char));
-	if (ptr == NULL)
-		return (NULL);
-	while (len && s[start + i] != '\0')
-	{
-		ptr[i] = (char)s[start + i];
-		len--;
-		i++;
-	}
-	ptr[i] = '\0';
-	return (ptr);
+	j = ft_strlen(s);
+	if (len == 0 || start >= j)
+		return (ft_strdup(""));
+	else if (len > j - start)
+		len = j - start;
+	str = (char *) ft_calloc(len + 1, sizeof(char));
+	if (str == NULL)
+		return (0);
+	ft_memcpy(str, s + start, len);
+	return (str);
 }
+
+/*int main(void)
+{
+    char s[] = "hello i'm noaman oudrib, i'm a student at 1337";
+    char *str = ft_substr(s, 10, 10);
+    printf("%s::\n", str);
+    return (0);
+}*/

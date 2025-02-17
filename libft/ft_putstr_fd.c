@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noudrib <noudrib@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/03 21:37:01 by mel-hadd          #+#    #+#             */
-/*   Updated: 2023/11/18 18:48:47 by mel-hadd         ###   ########.fr       */
+/*   Created: 2023/11/02 17:26:08 by noudrib           #+#    #+#             */
+/*   Updated: 2023/11/15 20:34:51 by noudrib          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,15 @@
 
 void	ft_putstr_fd(char *s, int fd)
 {
-	if (!s || fd < 0)
+	if (fd < 0 || !s)
 		return ;
 	while (*s)
-	{
-		write(fd, s, 1);
-		s++;
-	}
+		write(fd, s++, 1);
 }
+
+/*int main(void)
+{
+    char *str = "hello world";
+    ft_putstr_fd(str, 1);
+    return (0);
+}*/
